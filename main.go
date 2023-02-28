@@ -29,7 +29,8 @@ func main() {
 	})
 
 	port := os.Getenv("APPPORT")
-	if err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%v", port), nil); err != nil {
+	fmt.Printf("running on http://127.0.0.1:%v\n", port)
+	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%v", port), nil); err != nil {
 		log.Fatal(err)
 	}
 }
