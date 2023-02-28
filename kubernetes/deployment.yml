@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: motd-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: motd
+  template:
+    metadata:
+      labels:
+        app: motd
+    spec:
+      containers:
+      - name: motd
+        image: jeanmassip/tp903:latest
+        resources:
+          limits:
+            memory: "32Mi"
+            cpu: "100m"
+        env:
+        - name: APPPORT
+          value: "80"
+        - name: MESSAGE
+          value: "Hello World !"
