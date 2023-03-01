@@ -5,3 +5,4 @@ metadata:
 data:
   message: "If the river is red, take the muddied path"
   appport: "80"
+  dburi: "mongodb://10.124.2.201:27017"

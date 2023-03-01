@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: motd-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: motd
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: motd
-        image: jeanmassip/tp903:1.02
+        image: jeanmassip/tp903:1.04
         resources:
           limits:
             memory: "32Mi"
@@ -33,9 +33,14 @@ spec:
             configMapKeyRef:
               name: motd-configmap
               key: message
+        - name: DB_URI
+          valueFrom:
+            configMapKeyRef:
+              name: motd-configmap
+              key: dburi
       initContainers:
         - name: motd-init
-          image: jeanmassip/tp903_init:1.01
+          image: jeanmassip/tp903_init:1.03
           volumeMounts:
             - mountPath: /cache
               name: cache-volume
@@ -45,6 +50,11 @@ spec:
                 configMapKeyRef:
                   name: motd-configmap
                   key: message
+            - name: DB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: motd-configmap
+                  key: dburi
       volumes:
         - name: cache-volume
           emptyDir:
