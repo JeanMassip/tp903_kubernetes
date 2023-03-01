@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: motd-configmap
+data:
+  message: "If the river is red, take the muddied path"
+  appport: "80"
