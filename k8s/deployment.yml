@@ -14,11 +14,14 @@ spec:
     spec:
       containers:
       - name: motd
-        image: jeanmassip/tp903:latest
+        image: jeanmassip/tp903:1.02
         resources:
           limits:
             memory: "32Mi"
             cpu: "100m"
+        volumeMounts:
+          - mountPath: /cache
+            name: cache-volume
         env:
         - name: APPPORT
           valueFrom:
@@ -30,3 +33,19 @@ spec:
             configMapKeyRef:
               name: motd-configmap
               key: message
+      initContainers:
+        - name: motd-init
+          image: jeanmassip/tp903_init:1.01
+          volumeMounts:
+            - mountPath: /cache
+              name: cache-volume
+          env:
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: motd-configmap
+                  key: message
+      volumes:
+        - name: cache-volume
+          emptyDir:
+            sizeLimit: 100Ki

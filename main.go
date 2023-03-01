@@ -10,10 +10,18 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		message, err := os.ReadFile("/cache/fichier.doc")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Println(err)
+		fmt.Println(message)
+
 		response := struct {
 			Message string
 		}{
-			Message: os.Getenv("MESSAGE"),
+			Message: string(message),
 		}
 
 		res, err := json.Marshal(response)
